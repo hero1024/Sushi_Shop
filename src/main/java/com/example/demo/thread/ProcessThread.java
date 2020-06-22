@@ -43,9 +43,9 @@ public class ProcessThread extends Thread {
      */
     private volatile long tempTime;
     /**
-     * 中间时间
+     * 制作时间
      */
-    private volatile long countTime;
+    private long countTime;
     /**
      * 线程暂停标识
      */
@@ -127,7 +127,7 @@ public class ProcessThread extends Thread {
         notify();
     }
 
-    public boolean getSuspendFlag() {
+    public boolean isSuspendFlag() {
         return suspendFlag;
     }
 
@@ -157,4 +157,5 @@ public class ProcessThread extends Thread {
     public void setStatusRepository(StatusRepository statusRepository) {
         ProcessThread.statusRepository = statusRepository;
     }
+
 }

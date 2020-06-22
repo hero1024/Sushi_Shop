@@ -99,7 +99,7 @@ public class ProcessThreadPoolExecutor implements Executor {
                         //开辟寿司制作线程
                         processThread.start();
                         //等待寿司制作线程暂停或结束
-                        while (!processThread.getSuspendFlag() && processThread.isAlive()) {
+                        while (!processThread.isSuspendFlag() && processThread.isAlive()) {
                             Thread.sleep(0);
                         }
                         task = null;
@@ -110,7 +110,7 @@ public class ProcessThreadPoolExecutor implements Executor {
                             ProcessThread processThread = (ProcessThread) suspendTask;
                             //唤醒被暂停的线程
                             processThread.isResume();
-                            while (!processThread.getSuspendFlag() && processThread.isAlive()) {
+                            while (!processThread.isSuspendFlag() && processThread.isAlive()) {
                                 Thread.sleep(0);
                             }
                         } else {
@@ -119,7 +119,7 @@ public class ProcessThreadPoolExecutor implements Executor {
                             if (queueTask != null) {
                                 ProcessThread processThread = (ProcessThread) queueTask;
                                 processThread.start();
-                                while (!processThread.getSuspendFlag() && processThread.isAlive()) {
+                                while (!processThread.isSuspendFlag() && processThread.isAlive()) {
                                     Thread.sleep(0);
                                 }
                             }
