@@ -12,6 +12,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -24,7 +25,7 @@ import java.util.concurrent.Executors;
 @Service
 public class ChefExecuteService {
 
-    private final ProcessThreadPoolExecutor executorService = new ProcessThreadPoolExecutor(3);
+    private final Executor executorService = new ProcessThreadPoolExecutor(3);
 
     private final SushiRepository sushiRepository;
     private final SushiOrderRepository sushiOrderRepository;
