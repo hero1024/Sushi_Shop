@@ -11,5 +11,5 @@ import java.util.List;
  * @since 2020/6/10
  */
 public interface SushiOrderRepository extends JpaRepository<SushiOrder, Integer>, JpaSpecificationExecutor<SushiOrder> {
-    List<SushiOrder> findByStatusId(int status);
+    List<SushiOrder> findByStatusIdOrderByCreatedAtAsc(int status);
 }

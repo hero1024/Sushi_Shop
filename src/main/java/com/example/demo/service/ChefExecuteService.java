@@ -62,7 +62,7 @@ public class ChefExecuteService {
      */
     private void processExecute() {
         //查询待处理数据
-        List<SushiOrder> sushiOrders = sushiOrderRepository.findByStatusId(1);
+        List<SushiOrder> sushiOrders = sushiOrderRepository.findByStatusIdOrderByCreatedAtAsc(1);
         if (!sushiOrders.isEmpty()) {
             //循环处理
             for (SushiOrder sushiOrder : sushiOrders) {

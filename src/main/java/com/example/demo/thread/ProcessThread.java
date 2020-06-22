@@ -43,6 +43,10 @@ public class ProcessThread extends Thread {
      */
     private volatile long tempTime;
     /**
+     * 中间时间
+     */
+    private volatile long countTime;
+    /**
      * 线程暂停标识
      */
     private volatile boolean suspendFlag;
@@ -53,6 +57,7 @@ public class ProcessThread extends Thread {
         this.sushiOrder = sushiOrder;
         this.timeSpent = 0;
         this.tempTime = 0;
+        this.countTime = 0;
     }
 
     @Override
@@ -67,26 +72,28 @@ public class ProcessThread extends Thread {
             sushiOrder.setStatusId(2);
             sushiOrderRepository.saveAndFlush(sushiOrder);
             resumeTime = start;
-            while (!isInterrupted() && (timeSpent + tempTime < timeToMake)) {
+            while (!isInterrupted() && (countTime + tempTime < timeToMake)) {
                 synchronized (this) {
                     while (suspendFlag) {
                         ///状态改为已暂停
                         sushiOrder.setStatusId(3);
                         sushiOrderRepository.saveAndFlush(sushiOrder);
                         tempTime = (System.currentTimeMillis() - resumeTime) / 1000;
-                        System.out.println(sushiOrder.getId() + "暂停中，预计用时：" + (timeToMake) + "，已用时：" + (timeSpent + tempTime));
+                        timeSpent = (System.currentTimeMillis() - start) / 1000;
+                        System.out.println(sushiOrder.getId() + "暂停中，预计用时：" + (timeToMake) + "，已用时：" + timeSpent);
                         wait();
                     }
                 }
                 //制作中
                 tempTime = (System.currentTimeMillis() - resumeTime) / 1000;
+                timeSpent = (System.currentTimeMillis() - start) / 1000;
             }
+            timeSpent = (System.currentTimeMillis() - start) / 1000;
+            tempTime = 0;
             if (!isInterrupted()) {
                 //状态改为已完成
                 sushiOrder.setStatusId(4);
                 sushiOrderRepository.saveAndFlush(sushiOrder);
-                timeSpent = (System.currentTimeMillis() - start) / 1000;
-                tempTime = 0;
                 ProcessStatus processStatus = new ProcessStatus(sushiOrder.getId(), timeSpent);
                 DataSets.finishedStatus.add(processStatus);
                 System.out.println(sushiOrder.getId() + "已完成，预计用时：" + (timeToMake) + "，实际用时：" + timeSpent);
@@ -103,7 +110,7 @@ public class ProcessThread extends Thread {
      */
     public void isSuspend() {
         suspendFlag = true;
-        timeSpent += tempTime;
+        countTime += tempTime;
         tempTime = 0;
     }
 
