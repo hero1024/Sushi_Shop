@@ -27,7 +27,7 @@ public class ProcessThreadPoolExecutor implements Executor {
      */
     public static BlockingQueue<Runnable> taskQueue;
     /**
-     * 暂停队列
+     * 暂停待恢复队列
      */
     public static BlockingQueue<Runnable> suspendQueue = new LinkedBlockingQueue<>();
     /**
@@ -74,9 +74,14 @@ public class ProcessThreadPoolExecutor implements Executor {
         System.out.println("任务队列已满，无法继续添加！");
     }
 
-
+    /**
+     * 厨师工作线程
+     */
     static class ChefThread extends Thread {
 
+        /**
+         * 寿司制作线程任务
+         */
         private Runnable task;
 
         public ChefThread(Runnable command) {
@@ -99,7 +104,7 @@ public class ProcessThreadPoolExecutor implements Executor {
                         }
                         task = null;
                     } else {
-                        //优先去暂停队列取任务并执行
+                        //优先去暂停待恢复队列取任务并执行
                         Runnable suspendTask = suspendQueue.poll();
                         if (suspendTask != null) {
                             ProcessThread processThread = (ProcessThread) suspendTask;

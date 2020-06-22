@@ -22,6 +22,9 @@ public class DataSets {
      * 订单线程
      */
     public static Map<Integer, ProcessThread> orderthreadMap = new HashMap<>();
+    /**
+     * 每个线程对应的订单
+     */
     public static Map<Runnable, SushiOrder> orderMap = new HashMap<>();
     /**
      * 轮询到的订单
