@@ -39,7 +39,9 @@ public class ChefExecuteService {
         this.autowireCapableBeanFactory = autowireCapableBeanFactory;
     }
 
-
+    /**
+     * 轮询线程
+     */
     public void worker() {
         try {
             //创建单线程池
@@ -55,6 +57,9 @@ public class ChefExecuteService {
         }
     }
 
+    /**
+     * 轮询业务体
+     */
     private void processExecute() {
         //查询待处理数据
         List<SushiOrder> sushiOrders = sushiOrderRepository.findByStatusId(1);
@@ -62,7 +67,7 @@ public class ChefExecuteService {
             //循环处理
             for (SushiOrder sushiOrder : sushiOrders) {
                 //添加待处理
-                if(!DataSets.ordersList.contains(sushiOrder)) {
+                if (!DataSets.ordersList.contains(sushiOrder)) {
                     ProcessThread processThread = new ProcessThread(sushiOrder);
                     DataSets.orderthreadMap.put(sushiOrder.getId(), processThread);
                     DataSets.ordersList.add(sushiOrder);

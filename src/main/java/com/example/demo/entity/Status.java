@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 /**
  * status
+ *
  * @author songpeijiang
  * @since 2020/6/10
  */

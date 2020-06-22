@@ -127,11 +127,17 @@ public class ProcessService {
         if (orderThread == null) {
             return false;
         } else {
+            //加入待恢复队列
             ProcessThreadPoolExecutor.suspendQueue.offer(orderThread);
             return true;
         }
     }
 
+    /**
+     * 订单状态查询
+     *
+     * @return 所有订单状态
+     */
     public Map<String, List<ProcessStatus>> queryStatus() {
         List<SushiOrder> sushiOrderList = sushiOrderRepository.findAll();
         DataSets.inprogressStatus.clear();

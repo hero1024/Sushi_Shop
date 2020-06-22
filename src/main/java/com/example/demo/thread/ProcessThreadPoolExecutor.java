@@ -25,7 +25,7 @@ public class ProcessThreadPoolExecutor implements Executor {
     /**
      * 任务队列
      */
-    public static  BlockingQueue<Runnable> taskQueue;
+    public static BlockingQueue<Runnable> taskQueue;
     /**
      * 暂停队列
      */
@@ -91,27 +91,30 @@ public class ProcessThreadPoolExecutor implements Executor {
                     //如果初始化任务不为空，则执行初始化任务
                     if (task != null) {
                         ProcessThread processThread = (ProcessThread) task;
+                        //开辟寿司制作线程
                         processThread.start();
-                        while (!processThread.getIsSuspendFlag() && processThread.isAlive()) {
+                        //等待寿司制作线程暂停或结束
+                        while (!processThread.getSuspendFlag() && processThread.isAlive()) {
                             Thread.sleep(0);
                         }
                         task = null;
-                    }
-                    //否则去任务队列取任务并执行
-                    else {
+                    } else {
+                        //优先去暂停队列取任务并执行
                         Runnable suspendTask = suspendQueue.poll();
                         if (suspendTask != null) {
                             ProcessThread processThread = (ProcessThread) suspendTask;
+                            //唤醒被暂停的线程
                             processThread.isResume();
-                            while (!processThread.getIsSuspendFlag() && processThread.isAlive()) {
+                            while (!processThread.getSuspendFlag() && processThread.isAlive()) {
                                 Thread.sleep(0);
                             }
                         } else {
+                            //否则去任务队列取任务并执行
                             Runnable queueTask = taskQueue.poll();
                             if (queueTask != null) {
                                 ProcessThread processThread = (ProcessThread) queueTask;
                                 processThread.start();
-                                while (!processThread.getIsSuspendFlag() && processThread.isAlive()) {
+                                while (!processThread.getSuspendFlag() && processThread.isAlive()) {
                                     Thread.sleep(0);
                                 }
                             }

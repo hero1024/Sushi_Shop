@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 
 /**
  * sushi_order pojo
+ *
  * @author songpeijiang
  * @since 2020/6/10
  */

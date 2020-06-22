@@ -98,12 +98,18 @@ public class ProcessThread extends Thread {
 
     }
 
+    /**
+     * 暂停
+     */
     public void isSuspend() {
         suspendFlag = true;
         timeSpent += tempTime;
         tempTime = 0;
     }
 
+    /**
+     * 恢复
+     */
     public synchronized void isResume() {
         suspendFlag = false;
         //状态改为处理中
@@ -114,7 +120,7 @@ public class ProcessThread extends Thread {
         notify();
     }
 
-    public boolean getIsSuspendFlag() {
+    public boolean getSuspendFlag() {
         return suspendFlag;
     }
 

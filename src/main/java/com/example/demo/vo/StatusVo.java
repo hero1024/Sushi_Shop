@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * status pojo
+ *
  * @author songpeijiang
  * @since 2020/6/10
  */

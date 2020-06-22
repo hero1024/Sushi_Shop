@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 订单处理状态
+ *
  * @author songpeijiang
  * @since 2020/6/12
  */

@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 
 /**
  * sushi_order
+ *
  * @author songpeijiang
  * @since 2020/6/10
  */
@@ -27,7 +28,7 @@ public class SushiOrder {
     private int statusId;
     @Column(name = "SUSHI_ID", nullable = false)
     private int sushiId;
-    @Column(name = "CREATEDAT", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP",insertable = false,updatable = false, nullable = false)
+    @Column(name = "CREATEDAT", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false, nullable = false)
     @Generated(GenerationTime.INSERT)
     private Timestamp createdAt;
 

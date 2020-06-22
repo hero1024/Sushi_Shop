@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 /**
  * sushi
+ *
  * @author songpeijiang
  * @since 2020/6/10
  * Proxy(lazy = false)避免LazyInitializationException
