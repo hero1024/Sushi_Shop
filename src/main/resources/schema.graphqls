@@ -1,0 +1,66 @@
+# 定义标量，因为graphql-java已经定义了相应的解析，所以这里只定义标量就可以
+scalar Long
+scalar BigDecimal
+#scalar Timestamp
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+# 查询
+type Query {
+    # 查询订单状态
+    status:GraphQLResult
+}
+# 修改
+type Mutation {
+    #下单
+    order(sushiName:String!):GraphQLResult
+}
+
+type GraphQLResult {
+    body:BodyResult
+    code:Int
+    msg:String
+}
+
+#信息体
+type BodyResult {
+    #订单
+    order:SushiOrderVo
+    #订单状态
+    status:StatusResult
+}
+#寿司订单信息
+type SushiOrderVo{
+    #订单id
+    id:String
+    #状态id
+    statusId:String
+    #寿司id
+    sushiId:String
+    #时间戳
+    #createdAt:Timestamp
+}
+#订单状态信息
+type StatusResult {
+    #制作中
+    inProgress:[ProcessStatus]
+    #待处理
+    pending:[ProcessStatus]
+    #已暂停
+    paused:[ProcessStatus]
+    #已完成
+    finished:[ProcessStatus]
+    #已取消
+    cancelled:[ProcessStatus]
+}
+#订单处理状态信息
+type ProcessStatus {
+    #订单id
+    orderId:Int
+    #耗时
+    timeSpend:Long
+}
+
+########################结束#################################
