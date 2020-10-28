@@ -10,6 +10,7 @@ import com.example.demo.thread.ProcessThreadPoolExecutor;
 import com.example.demo.utils.DataSets;
 import com.example.demo.vo.ProcessStatus;
 import com.example.demo.vo.SushiOrderVo;
+import com.example.demo.vo.SushiVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -166,5 +167,14 @@ public class ProcessService {
         allStatus.put("finished", DataSets.finishedStatus);
         allStatus.put("cancelled", DataSets.cancelledStatus);
         return allStatus;
+    }
+
+    /**
+     * 寿司信息查询
+     * @return 寿司信息
+     */
+    public List<SushiVo> querySushis() {
+        List<Sushi> sushis = sushiRepository.findAll();
+        return beanMapperService.mapperList(sushis,SushiVo.class);
     }
 }
