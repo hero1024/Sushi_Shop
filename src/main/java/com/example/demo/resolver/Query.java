@@ -38,8 +38,7 @@ public class Query implements GraphQLQueryResolver {
                 allStatus.get("cancelled"));
         return new GraphQLResult(
                 new BodyResult(statusResult),
-                0,
-                "");
+                0);
     }
 
     /**
@@ -51,7 +50,6 @@ public class Query implements GraphQLQueryResolver {
         List<SushiVo> suShiList = processService.querySushis();
         return new GraphQLResult(
                 new BodyResult(suShiList),
-                0,
-                "");
+                0);
     }
 }

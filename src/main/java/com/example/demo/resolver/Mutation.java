@@ -77,7 +77,7 @@ public class Mutation implements GraphQLMutationResolver {
      */
     public GraphQLResult resume(String orderId) {
         processService.resume(orderId);
-        return new GraphQLResult(null, 0, "Order resumed");
+        return new GraphQLResult(0, "Order resumed");
     }
 
 }

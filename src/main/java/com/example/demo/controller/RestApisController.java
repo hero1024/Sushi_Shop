@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.service.ProcessService;
-import com.example.demo.utils.JsonUtil;
 import com.example.demo.vo.JsonResult;
 import com.example.demo.vo.ProcessStatus;
 import com.example.demo.vo.SushiOrderVo;
@@ -39,10 +38,9 @@ public class RestApisController {
      * @return 订单信息
      */
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String order(String sushi_name) throws JsonProcessingException {
+    public JsonResult order(String sushi_name) {
         SushiOrderVo sushiOrder = processService.submitOrder(sushi_name);
-        JsonResult jsonResult = new JsonResult(sushiOrder, 0, "Order submitted");
-        return JsonUtil.getStrByEntity(jsonResult);
+        return new JsonResult(sushiOrder, 0, "Order submitted");
     }
 
     /**
@@ -50,10 +48,9 @@ public class RestApisController {
      *
      * @param orderId 订单号
      * @return 相应信息
-     * @throws JsonProcessingException JsonProcessingException
      */
     @RequestMapping(value = "/cancel/{order_id}", method = RequestMethod.PUT)
-    public String cancel(@PathVariable("order_id") String orderId) throws JsonProcessingException {
+    public JsonResult cancel(@PathVariable("order_id") String orderId) {
         JsonResult jsonResult = new JsonResult();
         if (processService.cancel(orderId)) {
             jsonResult.setCode(0);
@@ -62,7 +59,7 @@ public class RestApisController {
             jsonResult.setCode(1);
             jsonResult.setMsg("Order not found");
         }
-        return JsonUtil.getStrByEntity(jsonResult);
+        return jsonResult;
     }
 
     /**
@@ -70,10 +67,9 @@ public class RestApisController {
      *
      * @param orderId 订单号
      * @return 响应信息
-     * @throws JsonProcessingException JsonProcessingException
      */
     @RequestMapping(value = "/pause/{order_id}", method = RequestMethod.PUT)
-    public String pause(@PathVariable("order_id") String orderId) throws JsonProcessingException {
+    public JsonResult pause(@PathVariable("order_id") String orderId) {
         JsonResult jsonResult = new JsonResult();
         if (processService.pause(orderId)) {
             jsonResult.setCode(0);
@@ -82,7 +78,7 @@ public class RestApisController {
             jsonResult.setCode(1);
             jsonResult.setMsg("Order not found");
         }
-        return JsonUtil.getStrByEntity(jsonResult);
+        return jsonResult;
     }
 
     /**
@@ -90,13 +86,11 @@ public class RestApisController {
      *
      * @param orderId 订单号
      * @return 响应信息
-     * @throws JsonProcessingException JsonProcessingException
      */
     @RequestMapping(value = "/resume/{order_id}", method = RequestMethod.PUT)
-    public String resume(@PathVariable("order_id") String orderId) throws JsonProcessingException {
+    public JsonResult resume(@PathVariable("order_id") String orderId) {
         processService.resume(orderId);
-        JsonResult jsonResult = new JsonResult(null, 0, "Order resumed");
-        return JsonUtil.getStrByEntity(jsonResult);
+        return new JsonResult(0, "Order resumed");
     }
 
     /**
@@ -106,10 +100,9 @@ public class RestApisController {
      * @throws JsonProcessingException JsonProcessingException
      */
     @RequestMapping(value = "/status", method = RequestMethod.GET)
-    public String status() throws JsonProcessingException {
+    public JsonResult status() throws JsonProcessingException {
         Map<String, List<ProcessStatus>> allStatus = processService.queryStatus();
-        JsonResult jsonResult = new JsonResult(allStatus, 0, "");
-        return JsonUtil.getStrByEntity(jsonResult);
+        return new JsonResult(allStatus, 0);
     }
 
 }

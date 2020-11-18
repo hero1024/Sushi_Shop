@@ -1,7 +1,7 @@
 {
   "info": {
     "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-    "_postman_id": "226dd2d6-a970-4245-ae2f-4479ac3e2283",
+    "_postman_id": "21384802-3f35-4e2f-9506-2fcaded183b6",
     "name": "smart-doc"
   },
   "item": [
@@ -19,7 +19,7 @@
                   "key": "sushi_name",
                   "type": "text",
                   "desc": "寿司名称",
-                  "value": "琪.马"
+                  "value": "君浩.许"
                 }
               ]
             },
@@ -37,7 +37,7 @@
               "mode": "formdata",
               "formdata": []
             },
-            "url": "http://127.0.0.1:9000/shushi_shop/api/orders/cancel/48",
+            "url": "http://127.0.0.1:9000/shushi_shop/api/orders/cancel/105",
             "description": "取消订单",
             "header": []
           },
@@ -51,7 +51,7 @@
               "mode": "formdata",
               "formdata": []
             },
-            "url": "http://127.0.0.1:9000/shushi_shop/api/orders/pause/48",
+            "url": "http://127.0.0.1:9000/shushi_shop/api/orders/pause/105",
             "description": "暂停制作",
             "header": []
           },
@@ -65,7 +65,7 @@
               "mode": "formdata",
               "formdata": []
             },
-            "url": "http://127.0.0.1:9000/shushi_shop/api/orders/resume/48",
+            "url": "http://127.0.0.1:9000/shushi_shop/api/orders/resume/105",
             "description": "恢复制作",
             "header": []
           },

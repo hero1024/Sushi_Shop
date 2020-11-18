@@ -27,4 +27,14 @@ public class GraphQLResult {
      */
     private String msg;
 
+    public GraphQLResult(BodyResult body, int code) {
+        this.body = body;
+        this.code = code;
+    }
+
+    public GraphQLResult(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
 }
