@@ -1,5 +1,7 @@
 package com.example.demo.thread;
 
+import com.example.demo.utils.LogUtil;
+
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
@@ -71,7 +73,7 @@ public class ProcessThreadPoolExecutor implements Executor {
     }
 
     private void rejectTask() {
-        System.out.println("任务队列已满，无法继续添加！");
+        LogUtil.info("任务队列已满，无法继续添加！");
     }
 
     /**

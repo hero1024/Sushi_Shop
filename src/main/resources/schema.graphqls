@@ -1,0 +1,87 @@
+# 定义标量，因为graphql-java已经定义了相应的解析，所以这里只定义标量就可以
+scalar Long
+scalar BigDecimal
+#scalar Timestamp
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+# 查询
+type Query {
+    # 查询订单状态
+    status:GraphQLResult
+    # 查询寿司菜单
+    menu:GraphQLResult
+}
+# 修改
+type Mutation {
+    #提交订单
+    order(sushiName:String!):GraphQLResult
+    #取消订单
+    cancel(orderId:String!):GraphQLResult
+    #暂停制作
+    pause(orderId:String!):GraphQLResult
+    #恢复制作
+    resume(orderId:String!):GraphQLResult
+}
+
+type GraphQLResult {
+    body:BodyResult
+    code:Int
+    msg:String
+}
+
+#信息体
+type BodyResult {
+    #订单
+    order:SushiOrderVo
+    #订单状态
+    status:StatusResult
+    #寿司菜单
+    sushiList:[SushiVo]
+}
+#寿司信息
+type SushiVo{
+    #寿司id
+    id:Int
+    #寿司名
+    name:String
+    #寿司制作时长
+    timeToMake:Int
+    #时间戳
+    #createdAt:Timestamp
+}
+#寿司订单信息
+type SushiOrderVo{
+    #订单id
+    id:Int
+    #状态id
+    statusId:Int
+    #寿司id
+    sushiId:Int
+    #时间戳
+    #createdAt:Timestamp
+}
+#订单状态信息
+type StatusResult {
+    #制作中
+    inProgress:[ProcessStatus]
+    #待处理
+    pending:[ProcessStatus]
+    #已暂停
+    paused:[ProcessStatus]
+    #已完成
+    finished:[ProcessStatus]
+    #已取消
+    cancelled:[ProcessStatus]
+}
+#订单处理状态信息
+type ProcessStatus {
+    #订单id
+    orderId:Int
+    #耗时
+    timeSpend:Long
+}
+
+########################结束#################################

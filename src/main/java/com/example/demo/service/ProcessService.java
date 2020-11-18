@@ -8,8 +8,10 @@ import com.example.demo.repository.SushiRepository;
 import com.example.demo.thread.ProcessThread;
 import com.example.demo.thread.ProcessThreadPoolExecutor;
 import com.example.demo.utils.DataSets;
+import com.example.demo.utils.LogUtil;
 import com.example.demo.vo.ProcessStatus;
 import com.example.demo.vo.SushiOrderVo;
+import com.example.demo.vo.SushiVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,7 +85,7 @@ public class ProcessService {
         } else {
             ProcessStatus processStatus = new ProcessStatus();
             processStatus.setTimeSpend(orderThread.getTimeSpent());
-            System.out.println(orderThread.getSushiOrder().getId() + "取消中，已用时：" + orderThread.getTimeSpent());
+            LogUtil.info(orderThread.getSushiOrder().getId() + "取消中，已用时：" + orderThread.getTimeSpent());
             orderThread.interrupt();
             SushiOrder sushiOrder = sushiOrderRepository.findById(Integer.valueOf(orderId)).orElse(null);
             //状态改为已取消
@@ -166,5 +168,14 @@ public class ProcessService {
         allStatus.put("finished", DataSets.finishedStatus);
         allStatus.put("cancelled", DataSets.cancelledStatus);
         return allStatus;
+    }
+
+    /**
+     * 寿司信息查询
+     * @return 寿司信息
+     */
+    public List<SushiVo> querySushis() {
+        List<Sushi> sushis = sushiRepository.findAll();
+        return beanMapperService.mapperList(sushis,SushiVo.class);
     }
 }
