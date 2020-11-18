@@ -6,6 +6,7 @@ import com.example.demo.repository.StatusRepository;
 import com.example.demo.repository.SushiOrderRepository;
 import com.example.demo.repository.SushiRepository;
 import com.example.demo.utils.DataSets;
+import com.example.demo.utils.LogUtil;
 import com.example.demo.vo.ProcessStatus;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -67,7 +68,7 @@ public class ProcessThread extends Thread {
             DataSets.threadMap.put(sushiOrder.getId(), Thread.currentThread().getId());
             Sushi sushi = sushiRepository.getOne(sushiOrder.getSushiId());
             int timeToMake = sushi.getTimeToMake();
-            System.out.println(sushiOrder.getId() + "开始制作，预计用时：" + timeToMake);
+            LogUtil.info(sushiOrder.getId() + "开始制作，预计用时：" + timeToMake);
             ///状态改为处理中
             sushiOrder.setStatusId(2);
             sushiOrderRepository.saveAndFlush(sushiOrder);
@@ -80,7 +81,7 @@ public class ProcessThread extends Thread {
                         sushiOrderRepository.saveAndFlush(sushiOrder);
                         tempTime = (System.currentTimeMillis() - resumeTime) / 1000;
                         timeSpent = (System.currentTimeMillis() - start) / 1000;
-                        System.out.println(sushiOrder.getId() + "暂停中，预计用时：" + (timeToMake) + "，已用时：" + timeSpent);
+                        LogUtil.info(sushiOrder.getId() + "暂停中，预计用时：" + (timeToMake) + "，已用时：" + timeSpent);
                         wait();
                     }
                 }
@@ -96,7 +97,7 @@ public class ProcessThread extends Thread {
                 sushiOrderRepository.saveAndFlush(sushiOrder);
                 ProcessStatus processStatus = new ProcessStatus(sushiOrder.getId(), timeSpent);
                 DataSets.finishedStatus.add(processStatus);
-                System.out.println(sushiOrder.getId() + "已完成，预计用时：" + (timeToMake) + "，实际用时：" + timeSpent);
+                LogUtil.info(sushiOrder.getId() + "已完成，预计用时：" + (timeToMake) + "，实际用时：" + timeSpent);
             }
         } catch (Exception e) {
             interrupt();
@@ -122,7 +123,7 @@ public class ProcessThread extends Thread {
         //状态改为处理中
         sushiOrder.setStatusId(2);
         sushiOrderRepository.saveAndFlush(sushiOrder);
-        System.out.println(sushiOrder.getId() + "恢复中");
+        LogUtil.info(sushiOrder.getId() + "恢复中");
         resumeTime = System.currentTimeMillis();
         notify();
     }
