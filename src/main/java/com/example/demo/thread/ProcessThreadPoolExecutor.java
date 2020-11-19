@@ -1,6 +1,7 @@
 package com.example.demo.thread;
 
 import com.example.demo.utils.LogUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
@@ -48,7 +49,7 @@ public class ProcessThreadPoolExecutor implements Executor {
     }
 
     @Override
-    public void execute(Runnable command) {
+    public void execute(@NotNull Runnable command) {
         mainLock.lock();
         try {
             //线程池未满，每加入一个任务则开启一个线程
