@@ -16,8 +16,6 @@ import javax.persistence.*;
  */
 @Proxy(lazy = false)
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "SUSHI")
 public class Sushi {

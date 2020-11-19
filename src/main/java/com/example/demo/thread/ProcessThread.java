@@ -100,8 +100,8 @@ public class ProcessThread extends Thread {
                 LogUtil.info(sushiOrder.getId() + "已完成，预计用时：" + (timeToMake) + "，实际用时：" + timeSpent);
             }
         } catch (Exception e) {
+            LogUtil.error("制作线程中断", e);
             interrupt();
-            e.printStackTrace();
         }
 
     }

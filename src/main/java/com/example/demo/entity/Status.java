@@ -1,8 +1,6 @@
 package com.example.demo.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -13,8 +11,6 @@ import javax.persistence.*;
  * @since 2020/6/10
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "STATUS")
 public class Status {

@@ -3,7 +3,8 @@ package com.example.demo.thread;
 import com.example.demo.utils.LogUtil;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -36,13 +37,15 @@ public class ProcessThreadPoolExecutor implements Executor {
     /**
      * 存放线程的集合
      */
-    private final ArrayList<ChefThread> threads;
-
+    private static List<ChefThread> threads = new Vector<>(3);
+    /**
+     * 重入锁
+     */
     private final ReentrantLock mainLock = new ReentrantLock();
 
     public ProcessThreadPoolExecutor(int initPoolNum) {
         threadNum = initPoolNum;
-        threads = new ArrayList<>(initPoolNum);
+        threads = new Vector<>(initPoolNum);
         taskQueue = new LinkedBlockingQueue<>();
         threadNum = initPoolNum;
         workThreadNum = 0;
@@ -99,11 +102,13 @@ public class ProcessThreadPoolExecutor implements Executor {
                     //如果初始化任务不为空，则执行初始化任务
                     if (task != null) {
                         ProcessThread processThread = (ProcessThread) task;
+                        //设置为守护线程，厨师不工作了寿司也不制作了
+                        processThread.setDaemon(true);
                         //开辟寿司制作线程
                         processThread.start();
                         //等待寿司制作线程暂停或结束
                         while (!processThread.isSuspendFlag() && processThread.isAlive()) {
-                            Thread.sleep(0);
+
                         }
                         task = null;
                     } else {
@@ -111,19 +116,23 @@ public class ProcessThreadPoolExecutor implements Executor {
                         Runnable suspendTask = suspendQueue.poll();
                         if (suspendTask != null) {
                             ProcessThread processThread = (ProcessThread) suspendTask;
+                            //设置为守护线程，厨师不工作了寿司也不制作了
+                            processThread.setDaemon(true);
                             //唤醒被暂停的线程
                             processThread.isResume();
                             while (!processThread.isSuspendFlag() && processThread.isAlive()) {
-                                Thread.sleep(0);
+
                             }
                         } else {
                             //否则去任务队列取任务并执行
                             Runnable queueTask = taskQueue.poll();
                             if (queueTask != null) {
                                 ProcessThread processThread = (ProcessThread) queueTask;
+                                //设置为守护线程，厨师不工作了寿司也不制作了
+                                processThread.setDaemon(true);
                                 processThread.start();
                                 while (!processThread.isSuspendFlag() && processThread.isAlive()) {
-                                    Thread.sleep(0);
+
                                 }
                             }
                         }

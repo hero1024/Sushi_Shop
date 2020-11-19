@@ -1,8 +1,6 @@
 package com.example.demo.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
@@ -16,8 +14,6 @@ import java.sql.Timestamp;
  * @since 2020/6/10
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "SUSHI_ORDET")
 public class SushiOrder {
